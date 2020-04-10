@@ -23,5 +23,17 @@ namespace LiveSplit.TimeFormatters
             else
                 return formattedTime;
         }
+        public string Format(TimeSpan? time, TimeSystem timeSystem)
+        {
+            var deltaTime = new DeltaTimeFormatter();
+            deltaTime.Accuracy = Accuracy;
+            deltaTime.DropDecimals = DropDecimals;
+            deltaTime.TimeSystem = timeSystem;
+            var formattedTime = deltaTime.Format(time);
+            if (time == null)
+                return TimeFormatConstants.DASH;
+            else
+                return formattedTime;
+        }
     }
 }

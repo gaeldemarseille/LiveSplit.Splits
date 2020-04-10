@@ -15,8 +15,8 @@ namespace LiveSplit.UI.Components
         protected SimpleLabel MeasureTimeLabel { get; set; }
         protected SimpleLabel MeasureDeltaLabel { get; set; }
 
-        protected ITimeFormatter TimeFormatter { get; set; }
-        protected ITimeFormatter DeltaTimeFormatter { get; set; }
+        protected RegularSplitTimeFormatter TimeFormatter { get; set; }
+        protected DeltaSplitTimeFormatter DeltaTimeFormatter { get; set; }
 
         protected TimeAccuracy CurrentAccuracy { get; set; }
         protected TimeAccuracy CurrentDeltaAccuracy { get; set; }

@@ -9,13 +9,15 @@ namespace LiveSplit.UI
         public ColumnType Type { get; set; }
         public string Comparison { get; set; }
         public string TimingMethod { get; set; }
+        public string TimingSystem { get; set; }
 
-        public ColumnData(string name, ColumnType type, string comparison, string method)
+        public ColumnData(string name, ColumnType type, string comparison, string method, string system)
         {
             Name = name;
             Type = type;
             Comparison = comparison;
             TimingMethod = method;
+            TimingSystem = system;
         }
 
         public static ColumnData FromXml(XmlNode node)
@@ -24,7 +26,8 @@ namespace LiveSplit.UI
             return new ColumnData(element["Name"].InnerText,
                 (ColumnType)Enum.Parse(typeof(ColumnType), element["Type"].InnerText),
                 element["Comparison"].InnerText,
-                element["TimingMethod"].InnerText);
+                element["TimingMethod"].InnerText,
+                element["TimingSystem"].InnerText);
         }
 
         public int CreateElement(XmlDocument document, XmlElement element)
@@ -33,7 +36,8 @@ namespace LiveSplit.UI
             SettingsHelper.CreateSetting(document, element, "Name", Name) ^
             SettingsHelper.CreateSetting(document, element, "Type", Type) ^
             SettingsHelper.CreateSetting(document, element, "Comparison", Comparison) ^
-            SettingsHelper.CreateSetting(document, element, "TimingMethod", TimingMethod);
+            SettingsHelper.CreateSetting(document, element, "TimingMethod", TimingMethod) ^
+            SettingsHelper.CreateSetting(document, element, "TimingSystem", TimingSystem);
         }
     }
 }

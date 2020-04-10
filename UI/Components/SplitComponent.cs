@@ -29,8 +29,8 @@ namespace LiveSplit.UI.Components
         protected TimeAccuracy CurrentDeltaAccuracy { get; set; }
         protected bool CurrentDropDecimals { get; set; }
 
-        protected ITimeFormatter TimeFormatter { get; set; }
-        protected ITimeFormatter DeltaTimeFormatter { get; set; }
+        protected RegularSplitTimeFormatter TimeFormatter { get; set; }
+        protected DeltaSplitTimeFormatter DeltaTimeFormatter { get; set; }
 
         protected int IconWidth => DisplayIcon ? (int)(Settings.IconSize + 7.5f) : 0;
 
@@ -364,6 +364,12 @@ namespace LiveSplit.UI.Components
             else if (data.TimingMethod == "Game Time")
                 timingMethod = TimingMethod.GameTime;
 
+            var timingSystem = TimeSystem.Standard;
+            if (data.TimingSystem == "Standard")
+                timingSystem = TimeSystem.Standard;
+            else if (data.TimingSystem == "Decimal")
+                timingSystem = TimeSystem.Decimal;
+
             var type = data.Type;
 
             var splitIndex = state.Run.IndexOf(Split);
@@ -375,12 +381,12 @@ namespace LiveSplit.UI.Components
 
                     if (type == ColumnType.SplitTime)
                     {
-                        label.Text = TimeFormatter.Format(Split.SplitTime[timingMethod]);
+                        label.Text = TimeFormatter.Format(Split.SplitTime[timingMethod], timingSystem);
                     }
                     else //SegmentTime
                     {
                         var segmentTime = LiveSplitStateHelper.GetPreviousSegmentTime(state, splitIndex, timingMethod);
-                        label.Text = TimeFormatter.Format(segmentTime);
+                        label.Text = TimeFormatter.Format(segmentTime, timingSystem);
                     }
                 }
 
@@ -395,13 +401,13 @@ namespace LiveSplit.UI.Components
                     if (type == ColumnType.DeltaorSplitTime)
                     {
                         if (deltaTime != null)
-                            label.Text = DeltaTimeFormatter.Format(deltaTime);
+                            label.Text = DeltaTimeFormatter.Format(deltaTime, timingSystem);
                         else
-                            label.Text = TimeFormatter.Format(Split.SplitTime[timingMethod]);
+                            label.Text = TimeFormatter.Format(Split.SplitTime[timingMethod], timingSystem);
                     }
 
                     else if (type == ColumnType.Delta)
-                        label.Text = DeltaTimeFormatter.Format(deltaTime);
+                        label.Text = DeltaTimeFormatter.Format(deltaTime, timingSystem);
                 }
 
                 else if (type == ColumnType.SegmentDeltaorSegmentTime || type == ColumnType.SegmentDelta)
@@ -415,13 +421,13 @@ namespace LiveSplit.UI.Components
                     if (type == ColumnType.SegmentDeltaorSegmentTime)
                     {
                         if (segmentDelta != null)
-                            label.Text = DeltaTimeFormatter.Format(segmentDelta);
+                            label.Text = DeltaTimeFormatter.Format(segmentDelta, timingSystem);
                         else
                             label.Text = TimeFormatter.Format(LiveSplitStateHelper.GetPreviousSegmentTime(state, splitIndex, timingMethod));
                     }
                     else if (type == ColumnType.SegmentDelta)
                     {
-                        label.Text = DeltaTimeFormatter.Format(segmentDelta);
+                        label.Text = DeltaTimeFormatter.Format(segmentDelta, timingSystem);
                     }
                 }
             }
@@ -436,7 +442,7 @@ namespace LiveSplit.UI.Components
 
                     if (type == ColumnType.SplitTime || type == ColumnType.DeltaorSplitTime)
                     {
-                        label.Text = TimeFormatter.Format(Split.Comparisons[comparison][timingMethod]);
+                        label.Text = TimeFormatter.Format(Split.Comparisons[comparison][timingMethod], timingSystem);
                     }
                     else //SegmentTime or SegmentTimeorSegmentDeltaTime
                     {
@@ -450,7 +456,7 @@ namespace LiveSplit.UI.Components
                                 break;
                             }
                         }
-                        label.Text = TimeFormatter.Format(Split.Comparisons[comparison][timingMethod] - previousTime);
+                        label.Text = TimeFormatter.Format(Split.Comparisons[comparison][timingMethod] - previousTime, timingSystem);
                     }
                 }
 
@@ -460,7 +466,7 @@ namespace LiveSplit.UI.Components
                 if (bestDelta != null && Split == state.CurrentSplit &&
                     (type == ColumnType.DeltaorSplitTime || type == ColumnType.Delta || type == ColumnType.SegmentDeltaorSegmentTime || type == ColumnType.SegmentDelta))
                 {
-                    label.Text = DeltaTimeFormatter.Format(bestDelta);
+                    label.Text = DeltaTimeFormatter.Format(bestDelta, timingSystem);
                     label.ForeColor = Settings.OverrideDeltasColor ? Settings.DeltasColor : state.LayoutSettings.TextColor;
                 }
                 else if (type == ColumnType.Delta || type == ColumnType.SegmentDelta)

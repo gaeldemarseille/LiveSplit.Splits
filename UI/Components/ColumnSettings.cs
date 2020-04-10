@@ -21,6 +21,7 @@ namespace LiveSplit.UI.Components
         }
         public string Comparison { get { return Data.Comparison; } set { Data.Comparison = value; } }
         public string TimingMethod { get { return Data.TimingMethod; } set { Data.TimingMethod = value; } }
+        public string TimingSystem { get { return Data.TimingSystem; } set { Data.TimingSystem = value; } }
 
         public ColumnData Data { get; set; }
         protected LiveSplitState CurrentState { get; set; }
@@ -37,7 +38,7 @@ namespace LiveSplit.UI.Components
         {
             InitializeComponent();
 
-            Data = new ColumnData(columnName, ColumnType.Delta, "Current Comparison", "Current Timing Method");
+            Data = new ColumnData(columnName, ColumnType.Delta, "Current Comparison", "Current Timing Method","Standard");
 
             CurrentState = state;
             ColumnsList = columnsList; 
@@ -46,6 +47,10 @@ namespace LiveSplit.UI.Components
         void cmbTimingMethod_SelectedIndexChanged(object sender, EventArgs e)
         {
             TimingMethod = cmbTimingMethod.SelectedItem.ToString();
+        }
+        void cmbTimingSystem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TimingSystem = cmbTimingSystem.SelectedItem.ToString();
         }
 
         void cmbComparison_SelectedIndexChanged(object sender, EventArgs e)

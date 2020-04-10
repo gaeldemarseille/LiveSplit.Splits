@@ -163,8 +163,8 @@ namespace LiveSplit.UI.Components
             btnColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
 
             ColumnsList = new List<ColumnSettings>();
-            ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, "Current Comparison", "Current Timing Method") });
-            ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, "Current Comparison", "Current Timing Method") });
+            ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, "Current Comparison", "Current Timing Method", "Standard") });
+            ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, "Current Comparison", "Current Timing Method", "Standard") });
         }
 
         void chkColumnLabels_CheckedChanged(object sender, EventArgs e)
@@ -384,12 +384,12 @@ namespace LiveSplit.UI.Components
                 var comparison = SettingsHelper.ParseString(element["Comparison"]);
                 if (SettingsHelper.ParseBool(element["ShowSplitTimes"]))
                 {
-                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, comparison, "Current Timing Method")});
-                    ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, comparison, "Current Timing Method")});
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.Delta, comparison, "Current Timing Method", "Standard") });
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "Time", ColumnsList) { Data = new ColumnData("Time", ColumnType.SplitTime, comparison, "Current Timing Method", "Standard") });
                 }
                 else
                 {
-                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.DeltaorSplitTime, comparison, "Current Timing Method") });
+                    ColumnsList.Add(new ColumnSettings(CurrentState, "+/-", ColumnsList) { Data = new ColumnData("+/-", ColumnType.DeltaorSplitTime, comparison, "Current Timing Method", "Standard") });
                 }
             }
             if (version >= new Version(1, 3))
@@ -565,10 +565,10 @@ namespace LiveSplit.UI.Components
         private void UpdateLayoutForColumn()
         {
             tableColumns.RowCount++;
-            tableColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 179f));
-            tableColumns.Size = new Size(tableColumns.Size.Width, tableColumns.Size.Height + 179);
-            Size = new Size(Size.Width, Size.Height + 179);
-            groupColumns.Size = new Size(groupColumns.Size.Width, groupColumns.Size.Height + 179);
+            tableColumns.RowStyles.Add(new RowStyle(SizeType.Absolute, 208f));
+            tableColumns.Size = new Size(tableColumns.Size.Width, tableColumns.Size.Height + 208);
+            Size = new Size(Size.Width, Size.Height + 208);
+            groupColumns.Size = new Size(groupColumns.Size.Width, groupColumns.Size.Height + 208);
         }
 
         private void btnAddColumn_Click(object sender, EventArgs e)

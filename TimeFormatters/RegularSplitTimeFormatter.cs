@@ -18,5 +18,14 @@ namespace LiveSplit.TimeFormatters
             else
                 return formatter.Format(time);
         }
+        public string Format(TimeSpan? time, TimeSystem timeSystem)
+        {
+            var formatter = new RegularTimeFormatter(Accuracy);
+            formatter.TimeSystem = timeSystem;
+            if (time == null)
+                return TimeFormatConstants.DASH;
+            else
+                return formatter.Format(time);
+        }
     }
 }
